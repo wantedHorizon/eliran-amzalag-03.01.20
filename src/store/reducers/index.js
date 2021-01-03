@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 
 
 const favoritesReducer = (favorites=[],action) => {
+
   if(action.type === 'FAVORITES_ADD'){
     return [...favorites, action.payload];
   }
   if(action.type === 'FAVORITES_REMOVE'){
-    return favorites;
+    return favorites.filter(f=> f.code !== action.payload);
   }
-
   return favorites;
 };
 

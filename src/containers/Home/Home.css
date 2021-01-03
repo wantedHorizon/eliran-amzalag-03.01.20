@@ -12,6 +12,11 @@
   /* width: 500px; */
   margin-bottom: 20px;
 }
+.Home .container h1 {
+  text-align: center;
+  padding: 50px 20px;
+  font-size: 4rem;
+}
 
 .Home .content {
   display: grid;
@@ -28,17 +33,17 @@
   justify-content: space-evenly;
 }
 
-.box {
+.Home .box {
   padding: 5px;
   background: black;
   border-radius: 10px;
   position: relative;
 }
 
-.container {
-  width: 80%;
+.Home .container {
+  max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 50px;
   background: rgb(211, 207, 207);
   border-radius: 10px;
 }

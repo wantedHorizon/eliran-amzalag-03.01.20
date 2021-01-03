@@ -1,25 +1,47 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './ContentHeadLine.css';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { addFavorite, removeFavorite } from '../../store/actions';
+import { Button } from '@material-ui/core';
+const ContentHeaderLine = ({ current, title, code, isFavorite, addFavorite, removeFavorite }) => {
 
-const ContentHeaderLine = ({current,title}) => {
-    console.log(current);
+
 
     const formatIcon = ("0" + current.WeatherIcon).slice(-2);
-return (
-<div className='ContentHeaderLine'>
- <div className="left">
-    <div className="icon">
-        <img src={`https://developer.accuweather.com/sites/default/files/${formatIcon}-s.png`} alt=""/>
-    </div>
-    <div className="title">
-        {title}
-        <br/>
-        {current.Temperature.Metric.Value}
-    </div>
+    return (
+        <div className='ContentHeaderLine'>
+            <div className="left">
+                <div className="icon">
+                    <img src={`https://developer.accuweather.com/sites/default/files/${formatIcon}-s.png`} alt="" />
+                </div>
+                <div className="title">
+                    {title}
+                    <br />
+                    {current.Temperature.Metric.Value}&deg;
+                </div>
 
- </div>
- <div className="right"></div>
-</div>
-)
+            </div>
+            <div className="right">
+                <div style={{ marginRight: '10px',color:'red' }}>
+                    {isFavorite ?
+                       <Button  style={{ color:'red' }} onClick={() => removeFavorite(code)}> <FavoriteIcon  /> </Button>
+                        : <Button  style={{ color:'red' }} onClick={() => addFavorite({ code, current, title })}> <FavoriteBorderIcon  /></Button>
+                    }
+                </div>
+                {isFavorite ? <span>Remove From Favorites</span> : <span>Add To Favorites</span>}
+
+
+            </div>
+        </div>
+    )
 }
-export default ContentHeaderLine;
+
+
+const mapStateToProps = (state, otherProps) => {
+    const isFavorite = state.favorites.find(fav => fav.code === otherProps.code);
+    const found = isFavorite ? true : false;
+    return { otherProps, isFavorite: found }
+};
+export default connect(mapStateToProps, { addFavorite, removeFavorite })(ContentHeaderLine);

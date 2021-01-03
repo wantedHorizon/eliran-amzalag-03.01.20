@@ -1,9 +1,14 @@
-.ContentHeadLine {
+.ContentHeaderLine {
   display: flex;
   justify-content: space-between;
 }
 
 .ContentHeaderLine .left {
   display: flex;
-  background: blue;
+  align-items: center;
+}
+
+.ContentHeaderLine .right {
+  display: flex;
+  align-items: center;
 }

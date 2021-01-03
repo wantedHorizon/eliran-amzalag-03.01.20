@@ -6,7 +6,9 @@ import ContentHeadLine from '../../components/Home/ContentHeadLine';
 import useLocations from '../../hooks/useLocations';
 import './Home.css';
 
+
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// const formatIcon = ("0" + current.WeatherIcon).slice(-2);
 
 
 const Home = props => {
@@ -38,11 +40,14 @@ const Home = props => {
         return props.selectedLocation.days.DailyForecasts.map((day, i) => {
             return (
 
-                <div key={i} className="box">
+                <div key={i} className="box" >
 
                     <h2>{days[new Date(day.Date).getDay()]}</h2>
-                    <p>Max:{day?.Temperature?.Maximum?.Value}</p>
-                    <p>Min:{day?.Temperature?.Minimum?.Value}</p>
+                    <div className="icon">
+                    <img src={`https://developer.accuweather.com/sites/default/files/${("0" + day.Day.Icon).slice(-2)}-s.png`} alt="" />
+                </div>
+                    <p>Max: {day?.Temperature?.Maximum?.Value}&deg;</p>
+                    <p>Min: {day?.Temperature?.Minimum?.Value}&deg;</p>
 
 
                 </div>
@@ -61,9 +66,13 @@ const Home = props => {
                         <>
 
                             <ContentHeadLine
+                                code={props.selectedLocation.code}
                                 current={props.selectedLocation?.current}
                                 title={props?.selectedLocation?.title.toUpperCase()}
                             />
+                            <h1 >
+                              {props.selectedLocation.current.WeatherText}  
+                            </h1>
                             <div className="content">
                                 {renderForecast()}
                             </div>
@@ -76,7 +85,7 @@ const Home = props => {
         </div>
     )
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state,otherProps) => {
     return { selectedLocation: state.selectedLocation }
 };
 export default connect(mapStateToProps, { fetchForecastByLocation })(Home);

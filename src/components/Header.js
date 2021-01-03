@@ -31,7 +31,10 @@ export default function ButtonAppBar() {
           </IconButton> */}
                     <Typography variant="h6" className={classes.title}>
                         Herolo Weather App
-          </Typography>
+
+
+                  </Typography>
+                  
                     <Button color="inherit">
                         <NavLink activeStyle={{
                             fontWeight: "bold",

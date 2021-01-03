@@ -19,18 +19,27 @@ export const fetchForecastByLocation = (code,title) => async dispatch => {
    return;
  }
 
-
-
-
-
-
   dispatch({ type: 'LOCATION_SELECTED', payload: {
     title,
+    code,
     days:data.data,
     current:current.data[0]
   } });
 };
 
+export const addFavorite = (favorite) =>{
+  return {
+    type:'FAVORITES_ADD',
+    payload:favorite
+  }
+}
+
+export const removeFavorite = (code) =>{
+  return {
+    type:'FAVORITES_REMOVE',
+    payload: code
+  }
+}
 
 
 // export const fetchWeatherByCity = ()
