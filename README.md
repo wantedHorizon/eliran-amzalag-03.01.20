@@ -1,4 +1,4 @@
-# netflix-youtube
+# weather-app
 
 ![alt text](https://i.ibb.co/Svr6nFy/eliran-heorlo-test-netlify-app-1.png)
 
