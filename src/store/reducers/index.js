@@ -3,11 +3,20 @@ import { combineReducers } from 'redux';
 
 const favoritesReducer = (favorites=[],action) => {
 
+  const fav =JSON.parse(localStorage.getItem('favorites'));
+  if(fav){
+    favorites=fav;
+  }
+  
   if(action.type === 'FAVORITES_ADD'){
-    return [...favorites, action.payload];
+    const newFav= [...favorites, action.payload];
+    localStorage.setItem('favorites',JSON.stringify(newFav));
+    return newFav;
   }
   if(action.type === 'FAVORITES_REMOVE'){
-    return favorites.filter(f=> f.code !== action.payload);
+    const newFav= favorites.filter(f=> f.code !== action.payload);
+    localStorage.setItem('favorites',JSON.stringify(newFav));
+    return newFav;
   }
   return favorites;
 };
@@ -26,6 +35,7 @@ const isCelsius = (isCel=true,action) => {
   }
   return isCel
 }
+
 
 export default combineReducers({
   favorites: favoritesReducer,

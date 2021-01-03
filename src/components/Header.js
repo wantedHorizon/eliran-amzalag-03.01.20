@@ -11,9 +11,13 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { degreeSwitch } from '../store/actions';
 import { connect } from 'react-redux';
+
+import { FormControlLabel, Switch as SwitchUI } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -24,13 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-   
-    return { isCelsius:state.isCelsius  }
+
+    return { isCelsius: state.isCelsius }
 };
 
 
 
- const  ButtonAppBar= ({isCelsius,degreeSwitch}) => {
+const ButtonAppBar = ({ isCelsius, degreeSwitch, darkmode, setDarkState }) => {
     // const [isCel, setAlignment] = React.useState(true);
 
     // const handleAlignment = (event, newAlignment) => {
@@ -44,18 +48,24 @@ const mapStateToProps = (state) => {
     // }
     return (
         <div className={classes.root}>
-            <AppBar position="static" color='primary'>
-                <Toolbar>
+            <AppBar position="static" color='primary' >
+                <Toolbar style={{ background: 'var(--toolbar-background)' }}>
 
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography variant="h6" className={classes.title} >
                         Herolo Weather App
-                  </Typography>
+
+                        <FormControlLabel
+                            style={{ background: 'transparent', marginLeft:'10px' }}
+                            control={<SwitchUI checked={darkmode} onChange={(e, val) => setDarkState(val)} name="checkedA" />}
+                            label="DarkMode"
+                        />
+                    </Typography>
 
                     <ToggleButtonGroup
                         value={isCelsius}
                         exclusive
                         style={{ background: 'white' }}
-                        onChange={(e,val) =>degreeSwitch(val) }
+                        onChange={(e, val) => degreeSwitch(val)}
                         aria-label="text alignment"
                     >
                         <ToggleButton value={true} aria-label="left aligned">
@@ -93,4 +103,4 @@ const mapStateToProps = (state) => {
     );
 }
 
-export default connect(mapStateToProps, {  degreeSwitch })(ButtonAppBar);
+export default connect(mapStateToProps, { degreeSwitch })(ButtonAppBar);
