@@ -21,7 +21,6 @@ const Favorites = ({ favorites,fetchForecastByLocation,isCelsius }) => {
         history.push('/');
     }
 
-    console.log(favorites);
     return (
         <div className='Favorites'>
             <div className="content">

@@ -40,7 +40,7 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
     }, [location])
 
     const renderForecast = () => {
-        if (selectedLocation) {
+        if (!selectedLocation) {
             return null;
         }
 
@@ -61,8 +61,7 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
     }
 
 
-    //start finding by lat
-    const getGeoLocation = () => {
+    const getGEOLocation = () => {
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
@@ -101,7 +100,7 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
                                 current={selectedLocation?.current}
                                 title={selectedLocation?.title.toUpperCase()}
                             />
-                            <Button onClick={getGeoLocation}>Search By My Location</Button>
+                            <Button onClick={getGEOLocation}>Search By My Location</Button>
 
                             <h1 >
                                 {selectedLocation.current.WeatherText}
@@ -119,7 +118,6 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
         </div>
     )
 }
-
 const mapStateToProps = (state, otherProps) => {
     return { selectedLocation: state.selectedLocation, isCelsius: state.isCelsius }
 };

@@ -2,8 +2,6 @@
   display: grid;
   text-align: center;
   grid-auto-rows: 300px;
-  /* grid-template-columns: repeat(5,1fr); */
-  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
   grid-template-columns: repeat(auto-fit, 250px);
 
   background: #333;
@@ -12,8 +10,6 @@
   background: var(--container-background-color);
   min-height: 100vh;
   align-items: center;
-
-  /* padding: 20px; */
   justify-content: center;
 }
 

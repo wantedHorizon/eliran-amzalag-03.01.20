@@ -4,9 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import { NavLink } from 'react-router-dom';
-
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { degreeSwitch } from '../store/actions';
@@ -35,17 +33,8 @@ const mapStateToProps = (state) => {
 
 
 const ButtonAppBar = ({ isCelsius, degreeSwitch, darkmode, setDarkState }) => {
-    // const [isCel, setAlignment] = React.useState(true);
-
-    // const handleAlignment = (event, newAlignment) => {
-    //   setAlignment(newAlignment);
-    // };
-
     const classes = useStyles();
-    // const degreeChange = (e) => {
-    //     console.log(e.target.value );
-    //     // degreeSwitch(e.target.value)
-    // }
+
     return (
         <div className={classes.root}>
             <AppBar position="static" color='primary' >
@@ -55,7 +44,7 @@ const ButtonAppBar = ({ isCelsius, degreeSwitch, darkmode, setDarkState }) => {
                         Herolo Weather App
 
                         <FormControlLabel
-                            style={{ background: 'transparent', marginLeft:'10px' }}
+                            style={{ background: 'transparent', marginLeft: '10px' }}
                             control={<SwitchUI checked={darkmode} onChange={(e, val) => setDarkState(val)} name="checkedA" />}
                             label="DarkMode"
                         />

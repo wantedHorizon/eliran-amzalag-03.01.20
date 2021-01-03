@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { withStyles } from "@material-ui/core/styles";
-
 import { TextField } from '@material-ui/core';
 
 
@@ -8,9 +7,6 @@ const styles = {
   root: {
     background: "white",
   },
-  // input: {
-  //   color: "black"
-  // }
 };
 const SearchBar = ({ onFormSubmit, classes }) => {
   const [term, setTerm] = useState('');
@@ -24,7 +20,7 @@ const SearchBar = ({ onFormSubmit, classes }) => {
   const onInputChange = (e) => {
     let value = e.target.value;
 
-    value = value.replace(/[^A-Za-z]/ig, '')
+    value = value.replace(/[^A-Za-z ]/ig, '')
     if (value !== e.target.value) {
       alert("only english letters plz");
     }
