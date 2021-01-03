@@ -10,16 +10,15 @@ import weatherAPI from '../../api/weatherAPI';
 
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-// const formatIcon = ("0" + current.WeatherIcon).slice(-2);
 
 
-const Home = ({fetchForecastByLocation,selectedLocation,isCelsius}) => {
+const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
     const degreeType = (deg) => {
-        if(isCelsius){
+        if (isCelsius) {
             return deg;
         }
 
-        return 2*deg+30;
+        return 2 * deg + 30;
     }
 
     const [location, search] = useLocations('');
@@ -33,12 +32,11 @@ const Home = ({fetchForecastByLocation,selectedLocation,isCelsius}) => {
     }, [])
 
     useEffect(() => {
-        console.log("location", location);
         if (location?.Key) {
 
             fetchForecastByLocation(location.Key, location.LocalizedName);
         }
-// eslint-disable-next-line
+        // eslint-disable-next-line
     }, [location])
 
     const renderForecast = () => {
@@ -53,8 +51,8 @@ const Home = ({fetchForecastByLocation,selectedLocation,isCelsius}) => {
 
                     <h2>{days[new Date(day.Date).getDay()]}</h2>
                     <div className="icon">
-                    <img src={`https://developer.accuweather.com/sites/default/files/${("0" + day.Day.Icon).slice(-2)}-s.png`} alt="" />
-                </div>
+                        <img src={`https://developer.accuweather.com/sites/default/files/${("0" + day.Day.Icon).slice(-2)}-s.png`} alt="" />
+                    </div>
                     <p>Max: {degreeType(day?.Temperature?.Maximum?.Value)}&deg;</p>
                     <p>Min: {degreeType(day?.Temperature?.Minimum?.Value)}&deg;</p>
                 </div>
@@ -64,29 +62,29 @@ const Home = ({fetchForecastByLocation,selectedLocation,isCelsius}) => {
 
 
     //start finding by lat
-const getLocation = () => {
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
+    const getGeoLocation = () => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
 
-    async function success(pos) {
-        const {latitude,longitude} = pos.coords;
-        const res = await weatherAPI.get('locations/v1/cities/geoposition/search',{
-            params:{
-                q:`${latitude},${longitude}`
-            }
-        })
-        
-        fetchForecastByLocation(res.data.Key,res.data.LocalizedName);
+        async function success(pos) {
+            const { latitude, longitude } = pos.coords;
+            const res = await weatherAPI.get('locations/v1/cities/geoposition/search', {
+                params: {
+                    q: `${latitude},${longitude}`
+                }
+            })
+
+            fetchForecastByLocation(res.data.Key, res.data.LocalizedName);
+        }
+        function error(err) {
+
+            alert('Please  confirm location and refresh \n or search for a city ')
+        }
+        return navigator.geolocation.getCurrentPosition(success, error, options);
     }
-    function error(err) {
-      
-     alert('Please  confirm location and refresh \n or search for a city ')
-    }
-    return navigator.geolocation.getCurrentPosition(success, error, options);
-}
 
 
     return (
@@ -103,10 +101,10 @@ const getLocation = () => {
                                 current={selectedLocation?.current}
                                 title={selectedLocation?.title.toUpperCase()}
                             />
-                            <Button onClick={getLocation}>Search By My Location</Button>
+                            <Button onClick={getGeoLocation}>Search By My Location</Button>
 
                             <h1 >
-                              {selectedLocation.current.WeatherText}  
+                                {selectedLocation.current.WeatherText}
                             </h1>
                             <div className="content">
                                 {renderForecast()}
@@ -121,7 +119,8 @@ const getLocation = () => {
         </div>
     )
 }
-const mapStateToProps = (state,otherProps) => {
-    return { selectedLocation: state.selectedLocation ,isCelsius:state.isCelsius}
+
+const mapStateToProps = (state, otherProps) => {
+    return { selectedLocation: state.selectedLocation, isCelsius: state.isCelsius }
 };
 export default connect(mapStateToProps, { fetchForecastByLocation })(Home);
