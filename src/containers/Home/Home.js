@@ -13,9 +13,9 @@ const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 // const formatIcon = ("0" + current.WeatherIcon).slice(-2);
 
 
-const Home = props => {
+const Home = ({fetchForecastByLocation,selectedLocation,isCelsius}) => {
     const degreeType = (deg) => {
-        if(props.isCelsius){
+        if(isCelsius){
             return deg;
         }
 
@@ -23,28 +23,30 @@ const Home = props => {
     }
 
     const [location, search] = useLocations('');
+
     useEffect(() => {
-        if (!props.selectedLocation) {
-            props.fetchForecastByLocation('215854', 'tel aviv');
+        if (!selectedLocation) {
+            fetchForecastByLocation('215854', 'tel aviv');
 
         }
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
         console.log("location", location);
         if (location?.Key) {
 
-            props.fetchForecastByLocation(location.Key, location.LocalizedName);
+            fetchForecastByLocation(location.Key, location.LocalizedName);
         }
-
+// eslint-disable-next-line
     }, [location])
 
     const renderForecast = () => {
-        if (!props.selectedLocation) {
+        if (selectedLocation) {
             return null;
         }
 
-        return props.selectedLocation.days.DailyForecasts.map((day, i) => {
+        return selectedLocation.days.DailyForecasts.map((day, i) => {
             return (
 
                 <div key={i} className="box" >
@@ -77,7 +79,7 @@ const getLocation = () => {
             }
         })
         
-        props.fetchForecastByLocation(res.data.Key,res.data.LocalizedName);
+        fetchForecastByLocation(res.data.Key,res.data.LocalizedName);
     }
     function error(err) {
       
@@ -93,18 +95,18 @@ const getLocation = () => {
             <div className="container">
 
                 {
-                    props.selectedLocation ?
+                    selectedLocation ?
                         <>
 
                             <ContentHeadLine
-                                code={props.selectedLocation.code}
-                                current={props.selectedLocation?.current}
-                                title={props?.selectedLocation?.title.toUpperCase()}
+                                code={selectedLocation.code}
+                                current={selectedLocation?.current}
+                                title={selectedLocation?.title.toUpperCase()}
                             />
                             <Button onClick={getLocation}>Search By My Location</Button>
 
                             <h1 >
-                              {props.selectedLocation.current.WeatherText}  
+                              {selectedLocation.current.WeatherText}  
                             </h1>
                             <div className="content">
                                 {renderForecast()}
