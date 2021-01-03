@@ -1,6 +1,6 @@
 # netflix-youtube
 
-<!-- ![alt text](https://i.ibb.co/F02MG0r/netflix-youtube-netlify-app.png) -->
+![alt text](https://i.ibb.co/Svr6nFy/eliran-heorlo-test-netlify-app-1.png)
 
 see live at `https://eliran-heorlo-test.netlify.app/`
 
