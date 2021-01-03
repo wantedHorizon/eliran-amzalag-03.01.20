@@ -5,9 +5,16 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { addFavorite, removeFavorite } from '../../store/actions';
 import { Button } from '@material-ui/core';
-const ContentHeaderLine = ({ current, title, code, isFavorite, addFavorite, removeFavorite }) => {
 
+const ContentHeaderLine = ({ current, title, code, isFavorite, addFavorite, removeFavorite,isCelsius}) => {
 
+    const degreeType = (deg) => {
+        if(isCelsius){
+            return deg;
+        }
+
+        return 2*deg+30;
+    }
 
     const formatIcon = ("0" + current.WeatherIcon).slice(-2);
     return (
@@ -19,7 +26,7 @@ const ContentHeaderLine = ({ current, title, code, isFavorite, addFavorite, remo
                 <div className="title">
                     {title}
                     <br />
-                    {current.Temperature.Metric.Value}&deg;
+                    {degreeType(current.Temperature.Metric.Value)}&deg;
                 </div>
 
             </div>
@@ -42,6 +49,6 @@ const ContentHeaderLine = ({ current, title, code, isFavorite, addFavorite, remo
 const mapStateToProps = (state, otherProps) => {
     const isFavorite = state.favorites.find(fav => fav.code === otherProps.code);
     const found = isFavorite ? true : false;
-    return { otherProps, isFavorite: found }
+    return { otherProps, isFavorite: found,isCelsius:state.isCelsius  }
 };
 export default connect(mapStateToProps, { addFavorite, removeFavorite })(ContentHeaderLine);

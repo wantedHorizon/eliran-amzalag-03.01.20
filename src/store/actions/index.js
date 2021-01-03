@@ -41,5 +41,12 @@ export const removeFavorite = (code) =>{
   }
 }
 
+export const degreeSwitch = (isCel) => {
+  return {
+    type:'DEGREE_TYPE_SWITCH',
+    payload: isCel
+  }
+}
+
 
 // export const fetchWeatherByCity = ()

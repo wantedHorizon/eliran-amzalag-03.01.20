@@ -10,6 +10,17 @@ const SearchBar = ({ onFormSubmit }) => {
     onFormSubmit(term);
   };
 
+  const onInputChange = (e) => {
+    let value = e.target.value;
+    
+    value = value.replace(/[^A-Za-z]/ig, '')
+    if(value !== e.target.value) {
+      alert("only english letters plz");
+    }
+    setTerm(value)
+  
+  }
+
   return (
     <div className="search-bar ui segment">
       <form onSubmit={onSubmit} className="ui form">
@@ -17,7 +28,7 @@ const SearchBar = ({ onFormSubmit }) => {
         
           <TextField id="outlined-basic" label="Location" variant="outlined"
             value={term}
-            onChange={(event) => setTerm(event.target.value)}
+            onChange={onInputChange}
           />
 
         </div>

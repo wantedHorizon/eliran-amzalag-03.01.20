@@ -5,6 +5,8 @@ import SearchBar from '../../components/Home/SearchBar';
 import ContentHeadLine from '../../components/Home/ContentHeadLine';
 import useLocations from '../../hooks/useLocations';
 import './Home.css';
+import { Button } from '@material-ui/core';
+import weatherAPI from '../../api/weatherAPI';
 
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -12,10 +14,15 @@ const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 
 
 const Home = props => {
-    console.log(props.selectedLocation);
+    const degreeType = (deg) => {
+        if(props.isCelsius){
+            return deg;
+        }
+
+        return 2*deg+30;
+    }
 
     const [location, search] = useLocations('');
-    console.log(location);
     useEffect(() => {
         if (!props.selectedLocation) {
             props.fetchForecastByLocation('215854', 'tel aviv');
@@ -46,19 +53,43 @@ const Home = props => {
                     <div className="icon">
                     <img src={`https://developer.accuweather.com/sites/default/files/${("0" + day.Day.Icon).slice(-2)}-s.png`} alt="" />
                 </div>
-                    <p>Max: {day?.Temperature?.Maximum?.Value}&deg;</p>
-                    <p>Min: {day?.Temperature?.Minimum?.Value}&deg;</p>
-
-
+                    <p>Max: {degreeType(day?.Temperature?.Maximum?.Value)}&deg;</p>
+                    <p>Min: {degreeType(day?.Temperature?.Minimum?.Value)}&deg;</p>
                 </div>
             )
         })
     }
 
+
+    //start finding by lat
+const getLocation = () => {
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    async function success(pos) {
+        const {latitude,longitude} = pos.coords;
+        const res = await weatherAPI.get('locations/v1/cities/geoposition/search',{
+            params:{
+                q:`${latitude},${longitude}`
+            }
+        })
+        
+        props.fetchForecastByLocation(res.data.Key,res.data.LocalizedName);
+    }
+    function error(err) {
+      
+     alert('Please  confirm location and refresh \n or search for a city ')
+    }
+    return navigator.geolocation.getCurrentPosition(success, error, options);
+}
+
+
     return (
         <div className='Home'>
             <SearchBar onFormSubmit={search} />
-
             <div className="container">
 
                 {
@@ -70,12 +101,15 @@ const Home = props => {
                                 current={props.selectedLocation?.current}
                                 title={props?.selectedLocation?.title.toUpperCase()}
                             />
+                            <Button onClick={getLocation}>Search By My Location</Button>
+
                             <h1 >
                               {props.selectedLocation.current.WeatherText}  
                             </h1>
                             <div className="content">
                                 {renderForecast()}
                             </div>
+
                         </>
 
                         : <h1>Data is not available</h1>
@@ -86,6 +120,6 @@ const Home = props => {
     )
 }
 const mapStateToProps = (state,otherProps) => {
-    return { selectedLocation: state.selectedLocation }
+    return { selectedLocation: state.selectedLocation ,isCelsius:state.isCelsius}
 };
 export default connect(mapStateToProps, { fetchForecastByLocation })(Home);
