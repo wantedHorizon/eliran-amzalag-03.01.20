@@ -1,0 +1,9 @@
+.ContentHeadLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ContentHeaderLine .left {
+  display: flex;
+  background: blue;
+}

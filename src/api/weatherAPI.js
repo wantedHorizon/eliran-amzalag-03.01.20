@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://dataservice.accuweather.com/',
+  baseURL: 'http://dataservice.accuweather.com',
   params: {
     // part: 'snippet',
     // maxResults: 5,

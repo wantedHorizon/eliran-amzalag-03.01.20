@@ -29,7 +29,7 @@ const useLocations = (defaultSearchTerm) => {
         throw new Error('location not found');
       }
 
-
+      
       setLocation(response.data[0]);
     } catch (e) {
       alert(e)
