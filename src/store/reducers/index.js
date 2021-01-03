@@ -36,9 +36,16 @@ const isCelsius = (isCel=true,action) => {
   return isCel
 }
 
+const loading = (loading=true,action) => {
+  if(action.type ==='LOADING') {
+    return action.payload;
+  }
+  return loading;
+}
 
 export default combineReducers({
   favorites: favoritesReducer,
   selectedLocation,
-  isCelsius
+  isCelsius,
+  loading
 });

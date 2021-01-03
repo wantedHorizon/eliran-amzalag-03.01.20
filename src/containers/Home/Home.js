@@ -5,14 +5,14 @@ import SearchBar from '../../components/Home/SearchBar';
 import ContentHeadLine from '../../components/Home/ContentHeadLine';
 import useLocations from '../../hooks/useLocations';
 import './Home.css';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import weatherAPI from '../../api/weatherAPI';
 
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
-const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
+const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius,loading }) => {
     const degreeType = (deg) => {
         if (isCelsius) {
             return deg;
@@ -89,6 +89,7 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
     return (
         <div className='Home'>
             <SearchBar onFormSubmit={search} />
+            {loading? 
             <div className="container">
 
                 {
@@ -115,10 +116,12 @@ const Home = ({ fetchForecastByLocation, selectedLocation, isCelsius }) => {
                 }
 
             </div>
+
+            :<CircularProgress size={120} /> }
         </div>
     )
 }
 const mapStateToProps = (state, otherProps) => {
-    return { selectedLocation: state.selectedLocation, isCelsius: state.isCelsius }
+    return { selectedLocation: state.selectedLocation, isCelsius: state.isCelsius,loading:state.loading }
 };
 export default connect(mapStateToProps, { fetchForecastByLocation })(Home);
